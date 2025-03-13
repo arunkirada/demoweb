@@ -1,13 +1,19 @@
-var express = require('express')
-var app = express()
+const express = require('express');
+const path = require('path');
 
-app.set('port', (process.env.PORT || 5000))
-app.use(express.static(__dirname + '/public'))
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.get('/', function(request, response) {
-  response.send('Hello World!')
-})
+// Serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'))
-})
+// Serve the HTML page at the root URL
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Node app is running at http://localhost:${PORT}`);
+});
+
